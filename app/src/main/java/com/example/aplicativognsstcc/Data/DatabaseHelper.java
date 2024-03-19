@@ -7,21 +7,35 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Nome do banco de dados
-    private static final String DATABASE_NAME = "seu_banco_de_dados.db";
+    private static final String DATABASE_NAME = "tcc.db";
 
     // Versão do banco de dados
     private static final int DATABASE_VERSION = 1;
 
-    // Nome da tabela e coluna
-    public static final String TABLE_PONTOS = "pontos";
+    // Nome da tabela e colunas
+    public static final String TABLE_GNSS_DATA = "gnss_data";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_NOME = "nome";
+    public static final String COLUMN_LATITUDE = "latitude";
+    public static final String COLUMN_LONGITUDE = "longitude";
+    public static final String COLUMN_ALTITUDE = "altitude";
+    public static final String COLUMN_ACCURACY = "accuracy";
+    public static final String COLUMN_SPEED = "speed";
+    public static final String COLUMN_BEARING = "bearing";
+    public static final String COLUMN_PROVIDER = "provider";
+    public static final String COLUMN_TIMESTAMP = "timestamp";
 
-    // Comando SQL para criar a tabela
-    private static final String SQL_CREATE_TABLE =
-            "CREATE TABLE " + TABLE_PONTOS + " (" +
+    // Comando SQL para criar a tabela de dados GNSS
+    private static final String SQL_CREATE_TABLE_GNSS_DATA =
+            "CREATE TABLE " + TABLE_GNSS_DATA + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    COLUMN_NOME + " TEXT)";
+                    COLUMN_LATITUDE + " REAL," +
+                    COLUMN_LONGITUDE + " REAL," +
+                    COLUMN_ALTITUDE + " REAL," +
+                    COLUMN_ACCURACY + " REAL," +
+                    COLUMN_SPEED + " REAL," +
+                    COLUMN_BEARING + " REAL," +
+                    COLUMN_PROVIDER + " TEXT," +
+                    COLUMN_TIMESTAMP + " INTEGER)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,15 +43,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Executa o comando SQL para criar a tabela
-        db.execSQL(SQL_CREATE_TABLE);
+        // Executa o comando SQL para criar a tabela de dados GNSS
+        db.execSQL(SQL_CREATE_TABLE_GNSS_DATA);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Atualiza o esquema do banco de dados, se necessário
         // Aqui você pode adicionar a lógica para migrar os dados, se necessário
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PONTOS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GNSS_DATA);
         onCreate(db);
     }
 }

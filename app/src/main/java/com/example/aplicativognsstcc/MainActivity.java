@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aplicativognsstcc.Service.GNSSLoggingService;
 import com.example.aplicativognsstcc.View.Ponto;
 import com.example.aplicativognsstcc.View.PontoAdapter;
 
@@ -135,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
         isTimerRunning = true;
         iniciarButton.setText("Parar");
         selecionarButton.setEnabled(false); // Desativar o botão de selecionar pontos enquanto o contador estiver em execução
+
+        // Iniciar o serviço GNSSLoggingService
+        Intent serviceIntent = new Intent(this, GNSSLoggingService.class);
+        startService(serviceIntent);
     }
 
     private void stopTimer() {
@@ -146,7 +152,12 @@ public class MainActivity extends AppCompatActivity {
         isTimerRunning = false;
         iniciarButton.setText("Iniciar");
         selecionarButton.setEnabled(true); // Reativar o botão de selecionar pontos quando o contador for parado
+
+        // Parar o serviço GNSSLoggingService
+        Intent serviceIntent = new Intent(this, GNSSLoggingService.class);
+        stopService(serviceIntent);
     }
+
 
     private void updateTimerText(long millisUntilFinished) {
         // Converter o tempo restante para minutos e segundos
