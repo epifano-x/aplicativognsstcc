@@ -3,7 +3,6 @@ package com.example.aplicativognsstcc.Data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Nome do banco de dados
@@ -23,6 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BEARING = "bearing";
     public static final String COLUMN_PROVIDER = "provider";
     public static final String COLUMN_TIMESTAMP = "timestamp";
+    // Coluna para armazenar os dados GNSS em formato JSON
+    public static final String COLUMN_GNSS_DATA_JSON = "gnss_data_json";
 
     // Comando SQL para criar a tabela de dados GNSS
     private static final String SQL_CREATE_TABLE_GNSS_DATA =
@@ -35,7 +36,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_SPEED + " REAL," +
                     COLUMN_BEARING + " REAL," +
                     COLUMN_PROVIDER + " TEXT," +
-                    COLUMN_TIMESTAMP + " INTEGER)";
+                    COLUMN_TIMESTAMP + " INTEGER," +
+                    // Coluna para armazenar os dados GNSS em formato JSON
+                    COLUMN_GNSS_DATA_JSON + " TEXT)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
