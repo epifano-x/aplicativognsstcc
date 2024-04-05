@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         pontoSelecionadoTextView = findViewById(R.id.PontoSelecionado);
         RecyclerView recyclerView = findViewById(R.id.ListaPontos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
