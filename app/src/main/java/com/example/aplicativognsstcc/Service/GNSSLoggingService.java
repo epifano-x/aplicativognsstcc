@@ -26,6 +26,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import kotlin.text.UStringsKt;
+
 public class GNSSLoggingService extends Service {
 
     private static final String TAG = "GNSSLoggingService";
@@ -36,7 +38,7 @@ public class GNSSLoggingService extends Service {
     // Banco de dados
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-
+    private String pontoSelecionado;
     // Location Manager
     private LocationManager locationManager;
 
@@ -44,6 +46,11 @@ public class GNSSLoggingService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         isRunning = true;
+
+        // Recuperar o ponto selecionado do Intent
+        pontoSelecionado = intent.getStringExtra("pontoSelecionado");
+
+        // Você pode usar o ponto selecionado conforme necessário aqui
 
         // Inicializar o banco de dados
         try {
@@ -60,6 +67,7 @@ public class GNSSLoggingService extends Service {
 
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {
@@ -174,6 +182,8 @@ public class GNSSLoggingService extends Service {
             values.put(DatabaseHelper.COLUMN_BEARING, location.getBearing());
             values.put(DatabaseHelper.COLUMN_PROVIDER, location.getProvider());
             values.put(DatabaseHelper.COLUMN_TIMESTAMP, System.currentTimeMillis());
+            values.put(DatabaseHelper.COLUMN_PONTOSELECIONADO, pontoSelecionado.trim());
+            Log.d(TAG, "Ponto selecionado: " + pontoSelecionado);
 
             // Construir um objeto JSON contendo os dados do GnssStatus
             JSONObject gnssDataJson = new JSONObject();

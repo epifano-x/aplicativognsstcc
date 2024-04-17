@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BEARING = "bearing";
     public static final String COLUMN_PROVIDER = "provider";
     public static final String COLUMN_TIMESTAMP = "timestamp";
+    public static final String COLUMN_PONTOSELECIONADO = "pontoselecionado";
     // Coluna para armazenar os dados GNSS em formato JSON
     public static final String COLUMN_GNSS_DATA_JSON = "gnss_data_json";
 
@@ -37,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_BEARING + " REAL," +
                     COLUMN_PROVIDER + " TEXT," +
                     COLUMN_TIMESTAMP + " INTEGER," +
+                    COLUMN_PONTOSELECIONADO + " TEXT," +
                     // Coluna para armazenar os dados GNSS em formato JSON
                     COLUMN_GNSS_DATA_JSON + " TEXT)";
 
@@ -52,9 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Atualiza o esquema do banco de dados, se necessário
         // Aqui você pode adicionar a lógica para migrar os dados, se necessário
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GNSS_DATA);
         onCreate(db);
     }
+
 }

@@ -139,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
         iniciarButton.setText("Parar");
         selecionarButton.setEnabled(false); // Desativar o botão de selecionar pontos enquanto o contador estiver em execução
 
-        // Iniciar o serviço GNSSLoggingService
+        // Iniciar o serviço GNSSLoggingService e passar o ponto selecionado como um extra
         Intent serviceIntent = new Intent(this, GNSSLoggingService.class);
+        serviceIntent.putExtra("pontoSelecionado", pontoSelecionado.getNome()); // Passar o nome do ponto selecionado como um extra
         startService(serviceIntent);
     }
 
