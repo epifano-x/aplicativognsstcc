@@ -39,6 +39,10 @@ public class GNSSLoggingService extends Service {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private String pontoSelecionado;
+    private String LatitudeReal;
+    private String LongitudeReal;
+    private String DiferencaLatitude;
+    private String  DiferencaLongitude;
     // Location Manager
     private LocationManager locationManager;
 
@@ -49,7 +53,29 @@ public class GNSSLoggingService extends Service {
 
         // Recuperar o ponto selecionado do Intent
         pontoSelecionado = intent.getStringExtra("pontoSelecionado");
-
+        //Valida o ponto selecionado e atribui os campos conforme a listagem
+        switch (pontoSelecionado) {
+            case "Ponto 1":
+                LatitudeReal = "-25.315870288";
+                LongitudeReal = "-54.059354844";
+                break;
+            case "Ponto 2":
+                LatitudeReal = "-25.316636072";
+                LongitudeReal = "-54.060334235";
+                break;
+            case "Ponto 3":
+                LatitudeReal = "-25.316247124";
+                LongitudeReal = "-54.060495596";
+                break;
+            case "Ponto 4":
+                LatitudeReal = "-25.315765856";
+                LongitudeReal = "-54.059867182";
+                break;
+            default://caso der bo ainda registra algo :)
+                LatitudeReal = pontoSelecionado;
+                LongitudeReal = pontoSelecionado;
+                break;
+        }
         // Você pode usar o ponto selecionado conforme necessário aqui
 
         // Inicializar o banco de dados
@@ -174,17 +200,24 @@ public class GNSSLoggingService extends Service {
     private void armazenarDadosGNSS(Location location, GnssStatus gnssStatus) {
         try {
             ContentValues values = new ContentValues();
-            values.put(DatabaseHelper.COLUMN_LATITUDE, location.getLatitude());
-            values.put(DatabaseHelper.COLUMN_LONGITUDE, location.getLongitude());
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            values.put(DatabaseHelper.COLUMN_LATITUDE, latitude);
+            values.put(DatabaseHelper.COLUMN_LONGITUDE, longitude);
             values.put(DatabaseHelper.COLUMN_ALTITUDE, location.getAltitude());
             values.put(DatabaseHelper.COLUMN_ACCURACY, location.getAccuracy());
             values.put(DatabaseHelper.COLUMN_SPEED, location.getSpeed());
             values.put(DatabaseHelper.COLUMN_BEARING, location.getBearing());
             values.put(DatabaseHelper.COLUMN_PROVIDER, location.getProvider());
             values.put(DatabaseHelper.COLUMN_TIMESTAMP, System.currentTimeMillis());
-            values.put(DatabaseHelper.COLUMN_PONTOSELECIONADO, pontoSelecionado.trim());
-            Log.d(TAG, "Ponto selecionado: " + pontoSelecionado);
-
+            values.put(DatabaseHelper.COLUMN_PONTOSELECIONADO, pontoSelecionado.trim());//TRIM TIRA OS ESPAÇO VAZIO
+            values.put(DatabaseHelper.COLUMN_LATITUDEREAL, LatitudeReal.trim());
+            values.put(DatabaseHelper.COLUMN_LONGITUDEREAL, LongitudeReal.trim());
+            //faz o calculo de diferenca entre latitude apresentada vs real
+            DiferencaLatitude = String.valueOf(Double.parseDouble(LatitudeReal) - latitude);
+            DiferencaLongitude = String.valueOf(Double.parseDouble(LongitudeReal)-longitude);
+            values.put(DatabaseHelper.COLUMN_DIFERENCALATITUDE, DiferencaLatitude);
+            values.put(DatabaseHelper.COLUMN_DIFERENCALONGITUDE, DiferencaLongitude);
             // Construir um objeto JSON contendo os dados do GnssStatus
             JSONObject gnssDataJson = new JSONObject();
             JSONArray satellitesArray = new JSONArray();

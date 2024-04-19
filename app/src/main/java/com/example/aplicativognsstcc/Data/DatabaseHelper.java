@@ -23,6 +23,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PROVIDER = "provider";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_PONTOSELECIONADO = "pontoselecionado";
+    public static final String COLUMN_LATITUDEREAL = "latitudereal";
+    public static final String COLUMN_LONGITUDEREAL = "longitudereal";
+    public static final String COLUMN_DIFERENCALATITUDE = "diferencalatitude";
+    public static final String COLUMN_DIFERENCALONGITUDE = "diferencalongitude";
+
     // Coluna para armazenar os dados GNSS em formato JSON
     public static final String COLUMN_GNSS_DATA_JSON = "gnss_data_json";
 
@@ -39,6 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_PROVIDER + " TEXT," +
                     COLUMN_TIMESTAMP + " INTEGER," +
                     COLUMN_PONTOSELECIONADO + " TEXT," +
+                    COLUMN_LATITUDEREAL + " TEXT," +
+                    COLUMN_LONGITUDEREAL + " TEXT," +
+                    COLUMN_DIFERENCALATITUDE + " TEXT," +
+                    COLUMN_DIFERENCALONGITUDE + " TEXT," +
                     // Coluna para armazenar os dados GNSS em formato JSON
                     COLUMN_GNSS_DATA_JSON + " TEXT)";
 
